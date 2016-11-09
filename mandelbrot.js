@@ -66,7 +66,11 @@ function initMandelbrot() {
 
 	// CPU side variables
 	var viewportDimensions = [canvas.width, canvas.height];
-	var bounds = [-2.0, 2.0, -2.0, 2.0];
+	//var bounds = [-2.0, 2.0, -2.0, 2.0];
+	var minI = -2.0;
+	var maxI =  2.0;
+	var minR = -2.0;
+	var maxR =  2.0;
 
 	//
 	// Buffers
@@ -99,7 +103,11 @@ function initMandelbrot() {
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 		gl.uniform2fv(uniforms.viewportDimensions, viewportDimensions);
-		gl.uniform4fv(uniforms.bounds, bounds);
+		gl.uniform1f(uniforms.minI, minI);
+		gl.uniform1f(uniforms.maxI, maxI);
+		gl.uniform1f(uniforms.minR, minR);
+		gl.uniform1f(uniforms.maxR, maxR);
+		//gl.uniform4fv(uniforms.bounds, bounds);
 
 		gl.drawArrays(gl.TRIANGLES, 0, 6);
 
