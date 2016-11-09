@@ -87,11 +87,12 @@ function initMandelbrot() {
 	var vPosAttrib = gl.getAttribLocation(program, 'vPos');
 	gl.vertexAttribPointer(
 		vPosAttrib,
-		2, gl.FOAT,
+		2, gl.FLOAT,
 		gl.FALSE,
 		2 * Float32Array.BYTES_PER_ELEMENT,
 		0
 	);
+	gl.enableVertexAttribArray(vPosAttrib);
 
 	var loop = function() {
 		gl.clearColor(.5, .5, .5, 1.0);
