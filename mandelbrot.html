@@ -7,71 +7,13 @@
                 position: absolute;
             }
         </style>
-
-        <script id="vertexshader" type="x-shader">
-            precision highp float;
-
-            attribute vec2 vPos;
-
-            void main() {
-                gl_Position = vec4(vPos, 0.0, 1.0);
-            }
-        </script>
-        <script id="fragmentshader" type="x-shader">
-            precision highp float;
-
-            uniform vec2 viewportDimensions;
-            // uniform vec4 bounds; // minI, maxI, minR, maxR
-
-            uniform float minI;
-            uniform float maxI;
-            uniform float minR;
-            uniform float maxR;
-
-            void main() {
-                // [0, 1000]
-                // [-2.0, 2.0]
-                vec2 c = vec2(
-                    //gl_FragCoord.x * (bounds.w - bounds.z) / viewportDimensions.x + bounds.z,
-                    //gl_FragCoord.y * (bounds.y - bounds.x) / viewportDimensions.y + bounds.y
-
-                    gl_FragCoord.x * (maxR - minR) / viewportDimensions.x + minR,
-                    gl_FragCoord.y * (maxI - minI) / viewportDimensions.y + minI
-                );
-
-                // Mandelbrot formula
-                vec2 z = c;
-                float iterations = 0.0;
-                float maxIterations = 200.0;
-                const int imaxIterations = 200;
-
-                for(int i = 0; i < imaxIterations; i++) {
-                    float t = 2.0 * z.x * z.y + c.y;
-                    z.x = z.x * z.x - z.y * z.y + c.x;
-                    z.y = t;
-
-                    if(z.x * z.x + z.y * z.y > 4.0) {
-                        break;
-                    }
-
-                    iterations += 1.0;
-                }
-
-                if(iterations < maxIterations) {
-                    discard;
-                }
-                else {
-                    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-                }
-             }
-        </script>
-
     </head>
-    <body onload="initMandelbrot()">
+    <body onload="init()">
         <canvas id="canvas" width="800" height="600">
             Your browser is incompatible with HTML5??? Uh...
         </canvas>
         <script type="text/javascript" src="mandelbrot.js"></script> 
         <script type="text/javascript" src="listeners.js"></script> 
+        <script src="/bower_components/async/dist/async.min.js"></script>
     </body>
 </html>

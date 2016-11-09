@@ -2,7 +2,28 @@
 
 var canvas, gl;
 
-function initMandelbrot() {
+
+function init() {
+	async.map({
+		vsText: '/mandelbrot.vs.glsl',
+		fsText: '/mandelbrot.fs.glsl'
+	}, loadShaderAsync, initMandelbrot);
+}
+
+function loadShaderAsync(shaderURL, callback) {
+	var req = new XMLHttpRequest();
+	req.open('GET', shaderURL, true);
+	req.onload = function () {
+		if (req.status < 200 || req.status >= 300) {
+			callback('Could not load ' + shaderURL);
+		} else {
+			callback(null, req.responseText);
+		}
+	};
+	req.send();
+}
+
+function initMandelbrot(loadErr, loadedShaders) {
 	canvas = document.getElementById("canvas");
 
 	gl = canvas.getContext('webgl');
@@ -22,11 +43,15 @@ function initMandelbrot() {
 	//
 	// Shaders
 	//
+	if(!loadedShaders) {
+		console.error("ERROR loading shaders from file!");
+	}
+
 	var vertexShader = gl.createShader(gl.VERTEX_SHADER);
 	var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-
-	gl.shaderSource(vertexShader, document.getElementById("vertexshader").firstChild.nodeValue);
-	gl.shaderSource(fragmentShader, document.getElementById("fragmentshader").firstChild.nodeValue);
+	
+	gl.shaderSource(vertexShader, loadedShaders.vsText);
+	gl.shaderSource(fragmentShader, loadedShaders.fsText);
 
 	gl.compileShader(vertexShader);
 	if(!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
