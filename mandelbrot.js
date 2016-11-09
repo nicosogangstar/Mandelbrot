@@ -86,7 +86,10 @@ function initMandelbrot(loadErr, loadedShaders) {
 	//
 	var uniforms = {
 		viewportDimensions: gl.getUniformLocation(program, 'viewportDimensions'),
-		bounds: gl.getUniformLocation(program, 'bounds')
+		minI: gl.getUniformLocation(program, 'minI'),
+		maxI: gl.getUniformLocation(program, 'maxI'),
+		minR: gl.getUniformLocation(program, 'minR'),
+		maxR: gl.getUniformLocation(program, 'maxR')
 	};
 
 	// CPU side variables
@@ -132,7 +135,6 @@ function initMandelbrot(loadErr, loadedShaders) {
 		gl.uniform1f(uniforms.maxI, maxI);
 		gl.uniform1f(uniforms.minR, minR);
 		gl.uniform1f(uniforms.maxR, maxR);
-		//gl.uniform4fv(uniforms.bounds, bounds);
 
 		gl.drawArrays(gl.TRIANGLES, 0, 6);
 

@@ -12,9 +12,6 @@ void main() {
     // [0, 1000]
     // [-2.0, 2.0]
     vec2 c = vec2(
-        //gl_FragCoord.x * (bounds.w - bounds.z) / viewportDimensions.x + bounds.z,
-        //gl_FragCoord.y * (bounds.y - bounds.x) / viewportDimensions.y + bounds.y
-
         gl_FragCoord.x * (maxR - minR) / viewportDimensions.x + minR,
         gl_FragCoord.y * (maxI - minI) / viewportDimensions.y + minI
     );
