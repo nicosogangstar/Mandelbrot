@@ -1,8 +1,6 @@
 function configureEvents() {
 	addEvent(window, 'resize', onResizeWindow);
 	addEvent(window, 'keydown', onKeyDown);
-	//addEvent(window, 'wheel', onZoom);
-	//addEvent(window, 'mousemove', onMouseMove);
 }
 
 function addEvent(object, type, callback) {
@@ -29,5 +27,5 @@ function onResizeWindow() {
 }
 
 function onKeyDown() {
-	alert(event.keyCode);
+	//alert(event.keyCode);
 }

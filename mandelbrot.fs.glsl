@@ -1,7 +1,6 @@
 precision highp float;
 
 uniform vec2 viewportDimensions;
-// uniform vec4 bounds; // minI, maxI, minR, maxR
 
 uniform float minI;
 uniform float maxI;
@@ -19,8 +18,8 @@ void main() {
     // Mandelbrot formula
     vec2 z = c;
     float iterations = 0.0;
-    float maxIterations = 200.0;
-    const int imaxIterations = 200;
+    float maxIterations = 100.0;
+    const int imaxIterations = 100;
 
     for(int i = 0; i < imaxIterations; i++) {
         float t = 2.0 * z.x * z.y + c.y;
@@ -34,10 +33,7 @@ void main() {
         iterations += 1.0;
     }
 
-    if(iterations < maxIterations) {
-        discard;
-    }
-    else {
-        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
-    }
+    float quotient = (iterations / maxIterations);
+    float fraction = mod(quotient, 1.0);
+    gl_FragColor = vec4(fraction, fraction, fraction, 1.0);
 }

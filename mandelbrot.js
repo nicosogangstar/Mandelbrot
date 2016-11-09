@@ -94,7 +94,6 @@ function initMandelbrot(loadErr, loadedShaders) {
 
 	// CPU side variables
 	var viewportDimensions = [canvas.width, canvas.height];
-	//var bounds = [-2.0, 2.0, -2.0, 2.0];
 	var minI = -2.0;
 	var maxI =  2.0;
 	var minR = -2.0;
