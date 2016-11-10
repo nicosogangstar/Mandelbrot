@@ -1,18 +1,13 @@
 precision highp float;
 
 uniform vec2 viewportDimensions;
-
-uniform float minI;
-uniform float maxI;
-uniform float minR;
-uniform float maxR;
+uniform vec4 bounds; // minI, maxI, minR, maxR
 
 void main() {
-    // [0, 1000]
     // [-2.0, 2.0]
     vec2 c = vec2(
-        gl_FragCoord.x * (maxR - minR) / viewportDimensions.x + minR,
-        gl_FragCoord.y * (maxI - minI) / viewportDimensions.y + minI
+        gl_FragCoord.x * (bounds.w - bounds.z) / viewportDimensions.x + bounds.z,
+        gl_FragCoord.y * (bounds.y - bounds.x) / viewportDimensions.y + bounds.x
     );
 
     // Mandelbrot formula

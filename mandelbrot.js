@@ -1,11 +1,7 @@
 'use strict';
 
 var canvas, gl;
-
-var minI;
-var maxI;
-var minR;
-var maxR;
+var bounds = [-2, 2, -2.0, 2.0];
 
 function init() {
 	async.map({
@@ -90,18 +86,11 @@ function initMandelbrot(loadErr, loadedShaders) {
 	//
 	var uniforms = {
 		viewportDimensions: gl.getUniformLocation(program, 'viewportDimensions'),
-		minI: gl.getUniformLocation(program, 'minI'),
-		maxI: gl.getUniformLocation(program, 'maxI'),
-		minR: gl.getUniformLocation(program, 'minR'),
-		maxR: gl.getUniformLocation(program, 'maxR')
+		bounds: gl.getUniformLocation(program, 'bounds'),
 	};
 
 	// CPU side variables
 	var viewportDimensions = [canvas.width, canvas.height];
-	minI = -1.5;
-	maxI =  1.5;
-	minR = -2.0;
-	maxR =  2.0;
 
 	//
 	// Buffers
@@ -134,15 +123,13 @@ function initMandelbrot(loadErr, loadedShaders) {
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 		gl.uniform2fv(uniforms.viewportDimensions, viewportDimensions);
-		gl.uniform1f(uniforms.minI, minI);
-		gl.uniform1f(uniforms.maxI, maxI);
-		gl.uniform1f(uniforms.minR, minR);
-		gl.uniform1f(uniforms.maxR, maxR);
+		gl.uniform4fv(uniforms.bounds, new Float32Array(bounds));
 
 		gl.drawArrays(gl.TRIANGLES, 0, 6);
 
 		requestAnimationFrame(loop);	
 	}
+
 
 	requestAnimationFrame(loop);	
 }

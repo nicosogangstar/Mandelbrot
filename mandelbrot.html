@@ -6,6 +6,14 @@
                 padding: 0px;
                 position: absolute;
             }
+
+            .rainbow {
+                background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+                background-image: gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+                color:transparent;
+                -webkit-background-clip: text;
+                background-clip: text;
+            }
         </style>
     </head>
     <body onload="init()">
@@ -13,9 +21,9 @@
             Your browser is incompatible with HTML5??? Uh...
         </canvas>
 
-                <div id="wrapper">
-            <div style="position: absolute; left: 10px; top: 10px; width:175px; height:20px; background-color: yellow; padding: 10px;">
-                Made by Nicolas Gonzalez
+        <div id="menu">
+            <div style="position: absolute; left: 10px; top: 10px; width:175px; height:20px; background-color: transparent; padding: 10px;">
+                <p class="rainbow">Made by Nicolas Gonzalez</p>
             </div>
         </div>
 

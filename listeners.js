@@ -25,22 +25,29 @@ function onResizeWindow() {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
-	var rangeR = maxR - minR;
-	maxR = (maxI - minI) * (canvas.width / canvas.height) / 1.4 + minR;
-	var newRangeR = maxR - minR;
+	var rangeR = bounds[3] - bounds[2];
+	bounds[3] = (bounds[1] - bounds[0]) * (canvas.width / canvas.height) / 1.4 + bounds[2];
+	var newRangeR = bounds[3] - bounds[2];
 
-	minR -= (newRangeR - rangeR) / 2;
-	maxR = (maxI - minI) * (canvas.width / canvas.height) / 1.4 + minR;
+	bounds[2] -= (newRangeR - rangeR) / 2;
+	bounds[3] = (bounds[1] - bounds[0]) * (canvas.width / canvas.height) / 1.4 + bounds[2];
 
 	gl.viewport(0, 0, canvas.width, canvas.height);
 }
 
 function onKeyDown() {
-	//alert(event.keyCode);
+	if(event.keyCode >= 48 && event.keyCode <= 90) {
+		if(document.getElementById("menu").style.visibility === "hidden") {
+			document.getElementById("menu").style.visibility = "visible";
+		}
+		else {
+			document.getElementById("menu").style.visibility = "hidden";
+		}
+	}
 }
 
 function onScroll() {
-	var rangeI = maxI - minI;
+	var rangeI = bounds[1] - bounds[0];
 	var newRangeI;
 
 	if(event.deltaY < 0) {
@@ -52,23 +59,23 @@ function onScroll() {
 
 	var delta = newRangeI - rangeI;
 
-	minI -= delta / 2;
-	maxI = minI + newRangeI;
+	bounds[0] -= delta / 2;
+	bounds[1] = bounds[0] + newRangeI;
 
 	onResizeWindow();
 }
 
 function onMouseMove(e) {
 	if (e.buttons === 1) {
-		var rangeI = maxI - minI;
-		var rangeR = maxR - minR;
+		var rangeI = bounds[1] - bounds[0];
+		var rangeR = bounds[3] - bounds[2];
 
 		var deltaI = (e.movementY / canvas.height) * rangeI;
 		var deltaR = (e.movementX / canvas.width) * rangeR;
 
-		minI += deltaI;
-		maxI += deltaI;
-		minR -= deltaR;
-		maxR -= deltaR;
+		bounds[0] += deltaI;
+		bounds[1] += deltaI;
+		bounds[2] -= deltaR;
+		bounds[3] -= deltaR;
 	}
-}
+} 
