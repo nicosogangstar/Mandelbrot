@@ -5,8 +5,8 @@ var bounds = [-2, 2, -2.0, 2.0];
 
 function init() {
 	async.map({
-		vsText: '/mandelbrot.vs.glsl',
-		fsText: '/mandelbrot.fs.glsl'
+		vsText: 'mandelbrot.vs.glsl',
+		fsText: 'mandelbrot.fs.glsl'
 	}, loadShaderAsync, initMandelbrot);
 }
 
