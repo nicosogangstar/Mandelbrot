@@ -18,8 +18,8 @@ void main() {
     // Mandelbrot formula
     vec2 z = c;
     float iterations = 0.0;
-    float maxIterations = 100.0;
-    const int imaxIterations = 100;
+    float maxIterations = 500.0;
+    const int imaxIterations = 500;
 
     for(int i = 0; i < imaxIterations; i++) {
         float t = 2.0 * z.x * z.y + c.y;
@@ -34,6 +34,6 @@ void main() {
     }
 
     float quotient = (iterations / maxIterations);
-    float fraction = mod(quotient, 1.0);
+    float fraction = mod(quotient, 1.0) * (maxIterations / 100.0);
     gl_FragColor = vec4(fraction, fraction, fraction, 1.0);
 }

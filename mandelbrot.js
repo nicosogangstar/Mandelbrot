@@ -2,6 +2,10 @@
 
 var canvas, gl;
 
+var minI;
+var maxI;
+var minR;
+var maxR;
 
 function init() {
 	async.map({
@@ -94,10 +98,10 @@ function initMandelbrot(loadErr, loadedShaders) {
 
 	// CPU side variables
 	var viewportDimensions = [canvas.width, canvas.height];
-	var minI = -2.0;
-	var maxI =  2.0;
-	var minR = -2.0;
-	var maxR =  2.0;
+	minI = -1.5;
+	maxI =  1.5;
+	minR = -2.0;
+	maxR =  2.0;
 
 	//
 	// Buffers
