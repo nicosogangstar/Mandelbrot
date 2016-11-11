@@ -1,8 +1,12 @@
+var zoomIntervalId;
+
 function configureEvents() {
 	addEvent(window, 'resize', onResizeWindow);
 	addEvent(window, 'keydown', onKeyDown);
 	addEvent(window, 'wheel', onScroll);
 	addEvent(window, 'mousemove', onMouseMove);
+	addEvent(window, 'mousedown', onMouseDown);
+	addEvent(window, 'mouseup', onMouseUp);
 }
 
 function addEvent(object, type, callback) {
@@ -67,17 +71,29 @@ function onScroll() {
 	onResizeWindow();
 }
 
-function onMouseMove(e) {
-	if (e.buttons === 1) {
+function onMouseMove() {
+	if (event.buttons === 1) {
 		var rangeI = bounds[1] - bounds[0];
 		var rangeR = bounds[3] - bounds[2];
 
-		var deltaI = (e.movementY / canvas.height) * rangeI;
-		var deltaR = (e.movementX / canvas.width) * rangeR;
+		var deltaI = (event.movementY / canvas.height) * rangeI;
+		var deltaR = (event.movementX / canvas.width) * rangeR;
 
 		bounds[0] += deltaI;
 		bounds[1] += deltaI;
 		bounds[2] -= deltaR;
 		bounds[3] -= deltaR;
 	}
-} 
+}
+
+function onMouseDown() {
+	if(event.buttons > 2) {
+		zoomIntervalId = setInterval(function zoomIn() {
+			onScroll(event = {buttons: 1, deltaY: -100});
+		}, 10);
+	}
+}
+
+function onMouseUp() {
+	clearInterval(zoomIntervalId);
+}
