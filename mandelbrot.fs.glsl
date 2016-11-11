@@ -38,7 +38,7 @@ void main() {
         iterations += 1.0;
     }
 
-    if (iterations < maxIterations ) {
+    if (iterations < maxIterations) {
         float hsq = z.x*z.x + z.y*z.y;
         float log_zn = log(hsq) / 2.0;
         float nu = log(log_zn / log(2.0)) / log(2.0);
@@ -46,7 +46,12 @@ void main() {
         iterations = iterations + 1.0 - nu;
     }
 
-    float color1 = floor(iterations) / maxIterations;
-    float color2 = (floor(iterations) + 1.0) / maxIterations;
-    gl_FragColor = vec4(hsv2rgb(vec3(interpolate(color1, color2, mod(iterations, 1.0)), 1.0, 1.0)), 1.0);
+    if(iterations == maxIterations) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    }
+    else {
+        float color1 = floor(iterations) / maxIterations;
+        float color2 = (floor(iterations) + 1.0) / maxIterations;
+        gl_FragColor = vec4(hsv2rgb(vec3(interpolate(color1, color2, mod(iterations, 1.0)), 1.0, 1.0)), 1.0);
+    }
 }
