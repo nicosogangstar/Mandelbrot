@@ -1,7 +1,8 @@
 'use strict';
 
 var canvas, gl;
-var bounds = [-2, 2, -2.0, 2.0];
+var dist = 2;
+var bounds = [-dist, dist, -dist, dist];
 
 function init() {
 	async.map({

@@ -32,6 +32,8 @@ function onResizeWindow() {
 	bounds[2] -= (newRangeR - rangeR) / 2;
 	bounds[3] = (bounds[1] - bounds[0]) * (canvas.width / canvas.height) / 1.4 + bounds[2];
 
+	document.getElementById("zoom_factor").textContent = "Zoom: " + (dist / bounds[0]).toExponential(4);
+
 	gl.viewport(0, 0, canvas.width, canvas.height);
 }
 
