@@ -1,2 +1,2 @@
 # Mandelbrot
-This is a interactive Mandelbrot zooming application written in WebGL with the intention of allowing infinite zoom
+This is a interactive Mandelbrot zooming application written in WebGL but it can't really zoom all too far because I can't make glsl use anything more than a 32 bit precision floating point number!
