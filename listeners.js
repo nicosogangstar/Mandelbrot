@@ -1,12 +1,12 @@
 var zoomIntervalId;
+var panIntervalId;
 
 function configureEvents() {
 	addEvent(window, 'resize', onResizeWindow);
 	addEvent(window, 'keydown', onKeyDown);
+	addEvent(window, 'keyup', onKeyUp);
 	addEvent(window, 'wheel', onScroll);
 	addEvent(window, 'mousemove', onMouseMove);
-	addEvent(window, 'mousedown', onMouseDown);
-	addEvent(window, 'mouseup', onMouseUp);
 }
 
 function addEvent(object, type, callback) {
@@ -20,6 +20,29 @@ function addEvent(object, type, callback) {
     }
 };
 
+function zoom(rangeModifier) {
+	var rangeI = bounds[1] - bounds[0];
+	var newRangeI;
+	newRangeI = rangeI * rangeModifier;
+	var delta = newRangeI - rangeI;
+	bounds[0] -= delta / 2;
+	bounds[1] = bounds[0] + newRangeI;
+
+	onResizeWindow();
+}
+
+function pan(distI, distR) {
+	var rangeI = bounds[1] - bounds[0];
+	var rangeR = bounds[3] - bounds[2];
+
+	var deltaI = (distR / canvas.height) * rangeI;
+	var deltaR = (distI / canvas.width) * rangeR;
+
+	bounds[0] += deltaI;
+	bounds[1] += deltaI;
+	bounds[2] -= deltaR;
+	bounds[3] -= deltaR;
+}
 
 function onResizeWindow() {
 	if(!canvas) {
@@ -42,58 +65,53 @@ function onResizeWindow() {
 }
 
 function onKeyDown() {
-	if(event.keyCode >= 48 && event.keyCode <= 90) {
-		if(document.getElementById("menu").style.visibility === "hidden") {
-			document.getElementById("menu").style.visibility = "visible";
-		}
-		else {
-			document.getElementById("menu").style.visibility = "hidden";
-		}
+	var travel = 10;
+	var scaler = .05;
+
+	var panFunc = function panInt() {};
+	var zoomFunc = function zoomInt() {};
+
+	switch(event.keyCode) {
+		case 87:
+			pan(0, travel);
+			break;
+		case 83:
+			pan(0, -travel);
+			break;
+		case 68:
+			pan(-travel, 0);
+			break;
+		case 65:
+			pan(travel, 0);
+			break;	
+		case 38:
+			zoom(1.0 - scaler);
+			break;
+		case 40:
+			zoom(1.0 + scaler);
+			break;
 	}
+
+	panIntervalId = setInterval(panFunc, 10);
+	zoomIntervalId = setInterval(zoomFunc, 10);
+}
+
+function onKeyUp() {
+	clearInterval(panIntervalId);
+	clearInterval(zoomIntervalId);
 }
 
 function onScroll() {
-	var rangeI = bounds[1] - bounds[0];
-	var newRangeI;
-
 	if(event.deltaY < 0) {
-		newRangeI = rangeI * 0.95;
+		zoom(0.95);
 	}
 	else {
-		newRangeI = rangeI * 1.05;
+		zoom(1.05);
 	}
-
-	var delta = newRangeI - rangeI;
-
-	bounds[0] -= delta / 2;
-	bounds[1] = bounds[0] + newRangeI;
-
-	onResizeWindow();
 }
 
 function onMouseMove() {
 	if (event.buttons === 1) {
-		var rangeI = bounds[1] - bounds[0];
-		var rangeR = bounds[3] - bounds[2];
-
-		var deltaI = (event.movementY / canvas.height) * rangeI;
-		var deltaR = (event.movementX / canvas.width) * rangeR;
-
-		bounds[0] += deltaI;
-		bounds[1] += deltaI;
-		bounds[2] -= deltaR;
-		bounds[3] -= deltaR;
+		pan(event.movementX, event.movementY);
 	}
-}
-
-function onMouseDown() {
-	if(event.buttons > 2) {
-		zoomIntervalId = setInterval(function zoomIn() {
-			onScroll(event = {buttons: 1, deltaY: -100});
-		}, 10);
-	}
-}
-
-function onMouseUp() {
-	clearInterval(zoomIntervalId);
 }

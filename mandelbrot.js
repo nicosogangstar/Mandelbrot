@@ -5,6 +5,7 @@ var dist = 2;
 var bounds = [-dist, dist, -dist, dist];
 
 function init() {
+	alert('Use WASD or click and drag to navigate\nUse UP and DOWN or scroll to zoom');
 	async.map({
 		vsText: 'mandelbrot.vs.glsl',
 		fsText: 'mandelbrot.fs.glsl'
