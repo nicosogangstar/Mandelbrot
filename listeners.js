@@ -1,6 +1,3 @@
-var zoomIntervalId;
-var panIntervalId;
-
 function configureEvents() {
 	addEvent(window, 'resize', onResizeWindow);
 	addEvent(window, 'keydown', onKeyDown);
@@ -68,9 +65,6 @@ function onKeyDown() {
 	var travel = 10;
 	var scaler = .05;
 
-	var panFunc = function panInt() {};
-	var zoomFunc = function zoomInt() {};
-
 	switch(event.keyCode) {
 		case 87:
 			pan(0, travel);
@@ -91,9 +85,6 @@ function onKeyDown() {
 			zoom(1.0 + scaler);
 			break;
 	}
-
-	panIntervalId = setInterval(panFunc, 10);
-	zoomIntervalId = setInterval(zoomFunc, 10);
 }
 
 function onKeyUp() {
