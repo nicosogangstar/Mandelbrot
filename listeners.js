@@ -62,32 +62,32 @@ function onResizeWindow() {
 }
 
 function onKeyDown() {
-	var travel = 10;
-	var scaler = .05;
-
 	switch(event.keyCode) {
 		case 87:
-			pan(0, travel);
+			pandir = 0;
 			break;
 		case 83:
-			pan(0, -travel);
+			pandir = 1;
 			break;
 		case 68:
-			pan(-travel, 0);
+			pandir = 2;
 			break;
 		case 65:
-			pan(travel, 0);
+			pandir = 3;
 			break;	
 		case 38:
-			zoom(1.0 - scaler);
+			scaler = -0.02;
 			break;
 		case 40:
-			zoom(1.0 + scaler);
+			scaler = 0.02;
 			break;
 	}
 }
 
 function onKeyUp() {
+	pandir = -1;
+	scaler = 0.0;
+
 	clearInterval(panIntervalId);
 	clearInterval(zoomIntervalId);
 }

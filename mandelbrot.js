@@ -3,6 +3,8 @@
 var canvas, gl;
 var dist = 2;
 var bounds = [-dist, dist, -dist, dist];
+var scaler = 0.0;
+var pandir = -1;
 
 function init() {
 	alert('Use WASD or click and drag to navigate\nUse UP and DOWN or scroll to zoom');
@@ -129,7 +131,23 @@ function initMandelbrot(loadErr, loadedShaders) {
 
 		gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-		requestAnimationFrame(loop);	
+		var travel = 4;
+		switch(pandir) {
+			case 0:
+				pan(0, travel);
+				break;
+			case 1:
+				pan(0, -travel);
+				break;
+			case 2:
+				pan(-travel, 0);
+				break;
+			case 3:
+				pan(travel, 0);
+		}
+		zoom(1.0 + scaler);
+
+		requestAnimationFrame(loop);		
 	}
 
 
