@@ -87,9 +87,6 @@ function onKeyDown() {
 function onKeyUp() {
 	pandir = -1;
 	scaler = 0.0;
-
-	clearInterval(panIntervalId);
-	clearInterval(zoomIntervalId);
 }
 
 function onScroll() {
