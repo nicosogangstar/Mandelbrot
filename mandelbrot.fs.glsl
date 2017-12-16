@@ -22,36 +22,25 @@ void main() {
 
     // Mandelbrot formula
     vec2 z = c;
-    float iterations = 0.0;
-    float maxIterations = 500.0;
-    const int imaxIterations = 500;
-
-    for(int i = 0; i < imaxIterations; i++) {
-        float t = 2.0 * z.x * z.y + c.y;
-        z.x = z.x * z.x - z.y * z.y + c.x;
-        z.y = t;
+    
+    const int maxIterations = 500;
+    int iterations = 0;
+    for(int i = 0; i < maxIterations; i++) {
+        z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
 
         if(z.x * z.x + z.y * z.y > 4.0) {
             break;
         }
 
-        iterations += 1.0;
-    }
-
-    if (iterations < maxIterations) {
-        float hsq = z.x*z.x + z.y*z.y;
-        float log_zn = log(hsq) / 2.0;
-        float nu = log(log_zn / log(2.0)) / log(2.0);
-
-        iterations = iterations + 1.0 - nu;
+        iterations++;
     }
 
     if(iterations == maxIterations) {
         gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
     }
     else {
-        float color1 = floor(iterations) / maxIterations;
-        float color2 = (floor(iterations) + 1.0) / maxIterations;
-        gl_FragColor = vec4(hsv2rgb(vec3(interpolate(color1, color2, mod(iterations, 1.0)), 1.0, 1.0)), 1.0);
+        float color1 = float(iterations) / float(maxIterations);
+        float color2 = (float(iterations) + 1.0) / float(maxIterations);
+        gl_FragColor = vec4(hsv2rgb(vec3(interpolate(color1, color2, float(iterations)), 1.0, 1.0)), 1.0);
     }
 }
